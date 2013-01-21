@@ -4,17 +4,13 @@ pyTiVo-Utilities
 pytivo_metadata.py
 ------------------
 
-When streaming videos to a TiVo with pyTivo, metadata files are used to supply metadata so the TiVo can show information like the movie description and the year it came out.  pytivo_metadata.py generates those files based on the filename of the video.
+When streaming videos to a TiVo with pyTivo, metadata files are used to supply metadata so the TiVo can show information like the movie description and the year it came out.  `pytivo_metadata.py` generates those files based on the filename of the video.
 
 Here's an example of a filename:
 
     The Family Man.m4v
 
-This is the movie "The Family Man," starring Nicolas Cage.  pytivo_metadata.py will query The Open Movie Database API for the movie "The Family Man" and save as much metadata as it can to the file
-
-    The Family Man.m4v.txt
-
-Here's the metadata that pytivo_metadata.py generates:
+This is the movie "The Family Man," starring Nicolas Cage.  `pytivo_metadata.py` will query The Open Movie Database API for the movie "The Family Man" and save as much metadata as it can to the file `The Family Man.m4v.txt`. Here's the metadata that `pytivo_metadata.py` generates:
 
     title : The Family Man
     vProgramGenre : Comedy
@@ -42,7 +38,7 @@ No guarantees are made regarding the correct movie being returned from the API, 
 pytivo_commentary.py
 --------------------
 
-If you rip a DVD and include multiple audio tracks in the stream, you can stream each of those tracks via pyTivo by using pytivo_commentary.py.
+If you rip a DVD and include multiple audio tracks in the stream, you can stream each of those tracks via pyTivo by using `pytivo_commentary.py`.
 
 To denote a commentary track in a video, name the file like so:
 
@@ -54,9 +50,9 @@ If the movie has more than one commentary, name it like this:
 
 (Yes, The Family Man, starring Nicolas Cage, does have three commentary tracks.)
 
-pytivo_commentary.py will then generate multiple copies of the video and metadata file (one for each commentary) and add "Commentary #1/2/3" to each title.  The additional video files are only hardlinks to the original, so no additional disk space is needed.
+`pytivo_commentary.py` will then generate multiple copies of the video and metadata file (one for each commentary) and add "Commentary #1/2/3" to each title.  The additional video files are only hardlinks to the original, so no additional disk space is needed.
 
-Before using pytivo_commentary.py, add this line to the [Server] section of your pyTivo.conf (and restart the pyTivo service):
+Before using `pytivo_commentary.py`, add this line to the `[Server]` section of your `pyTivo.conf` (and restart the pyTivo service):
 
     audio_lang=commentary
 
