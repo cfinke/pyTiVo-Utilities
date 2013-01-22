@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# pytivo_metadata.py utilizes the Open Movie Database API, by Brian Fritz. http://www.omdbapi.com/
+
 import sys
 import os
 import re
