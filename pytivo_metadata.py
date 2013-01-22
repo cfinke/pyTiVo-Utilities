@@ -13,9 +13,6 @@ def generate_metadata_files(video_dir):
 	"""Generate TiVo metadata files for all videos in a directory."""
 	
 	for dirname, dirnames, filenames in os.walk(video_dir):
-		for subdir in dirnames:
-			generate_metadata_files(os.path.join(video_dir, subdir))
-		
 		for filename in filenames:
 			# All non-text files are assumed to be videos.
 			if filename.endswith(".txt"):
@@ -28,7 +25,7 @@ def generate_metadata_files(video_dir):
 			
 			metadata_filename = filename + ".txt"
 			
-			if os.path.exists(os.path.join(video_dir, metadata_filename)):
+			if os.path.exists(os.path.join(dirname, metadata_filename)):
 				continue
 			
 			title, file_comments = pytivo_utilities.parse_filename(filename)
@@ -58,7 +55,7 @@ def generate_metadata_files(video_dir):
 						for entry in api_data[json_field].split(', '):
 							metadata[metadata_field].append(entry)
 			
-			metadata_file_handle = open(os.path.join(video_dir, metadata_filename), 'w')
+			metadata_file_handle = open(os.path.join(dirname, metadata_filename), 'w')
 			metadata_file_handle.write(pytivo_utilities.metadata_dict_to_string(metadata).encode('utf8'))
 			metadata_file_handle.close()
 

@@ -9,9 +9,6 @@ def generate_commentary_streams(video_dir):
 	"""Create a second (hardlinked) video file for each commentary track."""
 	
 	for dirname, dirnames, filenames in os.walk(video_dir):
-		for subdir in dirnames:
-			generate_commentary_streams(os.path.join(video_dir, subdir))
-		
 		for filename in filenames:
 			# All non-text files are assumed to be videos.
 			if filename.endswith(".txt"):
@@ -35,7 +32,7 @@ def generate_commentary_streams(video_dir):
 			metadata_filename = filename + ".txt"
 			
 			if os.path.exists(metadata_filename):
-				metadata = pytivo_utilities.parse_metadata_text(open(os.path.join(video_dir, metadata_filename)).read().decode("utf-8"))
+				metadata = pytivo_utilities.parse_metadata_text(open(os.path.join(dirname, metadata_filename)).read().decode("utf-8"))
 			else:
 				metadata = {}
 			
@@ -60,14 +57,14 @@ def generate_commentary_streams(video_dir):
 				
 				if commentary_filename not in filenames:
 					try:
-						os.link(os.path.join(video_dir, filename), os.path.join(video_dir, commentary_filename))
+						os.link(os.path.join(dirname, filename), os.path.join(dirname, commentary_filename))
 					except OSError:
-						print "Could not create %s" % os.path.join(video_dir, commentary_filename)
+						print "Could not create %s" % os.path.join(dirname, commentary_filename)
 						continue
 				
 				metadata['title'] = '%s - Commentary #%s' % (original_title, i)
 				
-				commentary_metadata_file_handle = open(os.path.join(video_dir, commentary_filename) + ".txt", 'w')
+				commentary_metadata_file_handle = open(os.path.join(dirname, commentary_filename) + ".txt", 'w')
 				commentary_metadata_file_handle.write((u"%sOverride_mapAudio 0.%s : commentary\n" % (pytivo_utilities.metadata_dict_to_string(metadata), i + 1)).encode('utf8'))
 				commentary_metadata_file_handle.close()
 
