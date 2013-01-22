@@ -58,17 +58,15 @@ def generate_commentary_streams(video_dir):
 			for i in range(1, commentary_count + 1):
 				commentary_filename = '%s - Commentary #%s%s' % (title, i, extension)
 				
-				if commentary_filename in filenames:
-					continue
+				if commentary_filename not in filenames:
+					try:
+						os.link(os.path.join(video_dir, filename), os.path.join(video_dir, commentary_filename))
+					except OSError:
+						print "Could not create %s" % os.path.join(video_dir, commentary_filename)
+						continue
 				
-				try:
-					os.link(os.path.join(video_dir, filename), os.path.join(video_dir, commentary_filename))
-				except OSError:
-					print "Could not create %s" % os.path.join(video_dir, commentary_filename)
-					continue
-
 				metadata['title'] = '%s - Commentary #%s' % (original_title, i)
-
+				
 				commentary_metadata_file_handle = open(os.path.join(video_dir, commentary_filename) + ".txt", 'w')
 				commentary_metadata_file_handle.write((u"%sOverride_mapAudio 0.%s : commentary\n" % (pytivo_utilities.metadata_dict_to_string(metadata), i + 1)).encode('utf8'))
 				commentary_metadata_file_handle.close()
